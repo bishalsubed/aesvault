@@ -1,13 +1,16 @@
 import { EyeIcon, EyeOff, Link, Loader, Lock, Mail, PlusCircle } from "lucide-react";
 import { useRef, useState } from "react"
+import { useCredentialStore } from "@/stores/useCredentialsStore";
 
 const CreateCredentialsForm = () => {
     const [newCredential, setNewCredential] = useState({
         account: "",
         password: "",
-        webisteUrl: "",
+        websiteUrl: "",
     })
-    let loading = false;
+
+    const { createCredential,loading}  = useCredentialStore();
+
 
     const passwordRef = useRef<HTMLInputElement>(null)
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -23,6 +26,16 @@ const CreateCredentialsForm = () => {
         setIsPasswordVisible(!isPasswordVisible)
     }
 
+    const handleSubmit = (e:React.FormEvent) => { 
+        e.preventDefault();
+        createCredential(newCredential)
+        setNewCredential({
+            account: "",
+            password: "",
+            websiteUrl: "",
+        })
+        
+     }
 
     return (
         <div
@@ -30,7 +43,7 @@ const CreateCredentialsForm = () => {
         >
             <h2 className='text-2xl font-semibold mb-6 text-green-700 underline decoration-2 underline-offset-2'>Create New Credential</h2>
 
-            <form onSubmit={() => { }} className='space-y-6'>
+            <form onSubmit={handleSubmit} className='space-y-6'>
                 <div>
                     <label className="block text-sm font-medium text-green-700" htmlFor="email">Email</label>
                     <div className="mt-1 relative rounded-md shadow-sm">
@@ -79,12 +92,12 @@ const CreateCredentialsForm = () => {
                             <Link className='h-5 w-5 text-green-700' aria-hidden='true' />
                         </div>
                         <input
-                            id="webisteurl"
+                            id="websiteUrl"
                             type="url"
                             required
-                            value={newCredential.webisteUrl}
+                            value={newCredential.websiteUrl}
                             placeholder="https://example.com"
-                            onChange={(e) => setNewCredential({ ...newCredential, webisteUrl: e.target.value })}
+                            onChange={(e) => setNewCredential({ ...newCredential, websiteUrl: e.target.value })}
                             className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
 						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
                         />
