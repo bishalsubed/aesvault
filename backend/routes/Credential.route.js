@@ -13,15 +13,15 @@ const router = express.Router();
 
 router.use(verifyJWT)
 
-router.post("/credentials", createCredential );
+router.post("/create", createCredential );
 
-router.get("/credentials", getCredentials);
+router.get("/getCredentials", getCredentials);
 
-router.get("/credentials/:id", getCredentialById);
+router.get("/getCredential/:credentialId", getCredentialById);
 
-router.put("/credentials/:credentialId", updateCredential);
+router.put("/updateCredentials/:credentialId", updateCredential);
 
-router.delete("/credentials/:credentialId", deleteCredential );
+router.delete("/deleteCredentials/:credentialId", deleteCredential );
 
 
 export default router;

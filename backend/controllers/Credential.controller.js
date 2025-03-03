@@ -9,13 +9,13 @@ import { User } from "../models/User.model.js";
 const createCredential = async (req, res) => {
     try {
         const userId = req.user._id
-        const { account, password, websiteLink } = req.body;
+        const { account, password, websiteUrl } = req.body;
 
-        if (!account.trim() || !password.trim() || !websiteLink.trim()) {
-            throw new Error("Please fill in all fields");
+        if (!account.trim() || !password.trim() || !websiteUrl.trim()) {
+            return res.status(400).json({ message: "Please fill in all fields" });
         }
         const user = await User.findById(userId);
-        if (!user) throw new Error("User does not exist");
+        if (!user) return res.status(404).json({ message: "User not found" });
 
         const encryptionKey = decryptEncryptionKey(user.recoveryKey.encryptedEncryptionKey, user.recoveryKey.iv, user.recoveryKey.authTag)
 
@@ -24,7 +24,7 @@ const createCredential = async (req, res) => {
         const credential = await Credential.create({
             account,
             password: cipherText,
-            websiteLink,
+            websiteUrl,
             iv,
             authTag,
             owner: userId
@@ -81,7 +81,7 @@ const getCredentialById = async(req,res) => {
 const updateCredential = async (req, res) => {
     try {
         const { credentialId } = req.params;
-        const { account, password, websiteLink } = req.body;
+        const { account, password, websiteUrl } = req.body;
         if (!credentialId) throw new Error("Credential ID is required");
 
         if (account) {
@@ -111,10 +111,10 @@ const updateCredential = async (req, res) => {
             }
         }
 
-        if (websiteLink) {
+        if (websiteUrl) {
             try {
                 await Credential.findByIdAndUpdate(credentialId, {
-                    websiteLink
+                    websiteUrl
                 }, { new: true })
             } catch (error) {
                 console.log("Error updating website link", error)
