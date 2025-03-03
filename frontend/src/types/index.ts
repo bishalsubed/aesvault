@@ -1,5 +1,5 @@
 
-export interface Credentials {
+export interface Credential {
 	_id: string;
 	account: string;
 	password: string;
