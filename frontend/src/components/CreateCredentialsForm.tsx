@@ -9,7 +9,7 @@ const CreateCredentialsForm = () => {
         websiteUrl: "",
     })
 
-    const { createCredential,loading}  = useCredentialStore();
+    const { createCredential, loading } = useCredentialStore();
 
 
     const passwordRef = useRef<HTMLInputElement>(null)
@@ -26,7 +26,7 @@ const CreateCredentialsForm = () => {
         setIsPasswordVisible(!isPasswordVisible)
     }
 
-    const handleSubmit = (e:React.FormEvent) => { 
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         createCredential(newCredential)
         setNewCredential({
@@ -34,14 +34,13 @@ const CreateCredentialsForm = () => {
             password: "",
             websiteUrl: "",
         })
-        
-     }
+    }
 
     return (
         <div
-            className='border-2 border-gray-600shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto'
+            className='border-2 border-gray-200 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto'
         >
-            <h2 className='text-2xl font-semibold mb-6 text-green-700 underline decoration-2 underline-offset-2'>Create New Credential</h2>
+            <h2 className='text-2xl mb-6 text-green-700 underline underline-offset-4'>Create New Credential</h2>
 
             <form onSubmit={handleSubmit} className='space-y-6'>
                 <div>
