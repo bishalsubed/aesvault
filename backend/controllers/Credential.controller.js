@@ -1,8 +1,8 @@
 import { Credential } from "../models/Credential.model.js";
-import { 
-    encryptSymmetric, 
-    decryptSymmetric, 
-    decryptEncryptionKey 
+import {
+    encryptSymmetric,
+    decryptSymmetric,
+    decryptEncryptionKey
 } from "../lib/cryptography.js";
 import { User } from "../models/User.model.js";
 
@@ -47,10 +47,10 @@ const getCredentials = async (req, res) => {
             const encryptionKey = decryptEncryptionKey(req.user.recoveryKey.encryptedEncryptionKey, req.user.recoveryKey.iv, req.user.recoveryKey.authTag)
             const decryptedPassword = decryptSymmetric(encryptionKey, credential.password, credential.iv, credential.authTag)
             return {
-                ...encryptedCredentials.toJSON(), password: decryptedPassword
+                ...credential.toJSON(), password: decryptedPassword
             }
         })
-        if (!decryptedCredentials) throw new Error("Error decrypting credentials")
+        if (!decryptedCredentials) return res.status(500).json({ message: "Error getting credentials" });
         return res.status(200).json({ credentials: decryptedCredentials })
     } catch (error) {
         console.log("Error getting credentials", error)
@@ -58,20 +58,21 @@ const getCredentials = async (req, res) => {
     }
 }
 
-const getCredentialById = async(req,res) => {
+const getCredentialById = async (req, res) => {
     try {
         const { credentialId } = req.params;
-        if(!credentialId) throw new Error("Credential ID is required");
+        if (!credentialId) throw new Error("Credential ID is required");
 
         const encryptedCredential = await Credential.findById(credentialId);
-        if(!encryptedCredential) throw new Error("Credential not found")
+        if (!encryptedCredential) throw new Error("Credential not found")
 
         const encryptionKey = decryptEncryptionKey(req.user.recoveryKey.encryptedEncryptionKey, req.user.recoveryKey.iv, req.user.recoveryKey.authTag)
         const decryptedPassword = decryptSymmetric(encryptionKey, encryptedCredential.password, encryptedCredential.iv, encryptedCredential.authTag)
-        const decryptedCredential = {
-            ...encryptedCredential.toJSON(),password:decryptedPassword
-        }
-        return res.status(200).json({message:"Credential Obtained Sucessfully",credential:decryptedCredential})
+
+        const { iv, authTag, ...rest } = encryptedCredential.toJSON();
+        const decryptedCredential = { ...rest, password: decryptedPassword };
+
+        return res.status(200).json({ message: "Credential Obtained Sucessfully", credential: decryptedCredential })
     } catch (error) {
         console.log("Error getting credential by ID", error)
         res.status(500).json({ message: "Internal Server Error" });
@@ -82,49 +83,66 @@ const updateCredential = async (req, res) => {
     try {
         const { credentialId } = req.params;
         const { account, password, websiteUrl } = req.body;
+
         if (!credentialId) throw new Error("Credential ID is required");
 
+        const existingCredential = await Credential.findById(credentialId)
+
         if (account) {
-            try {
-                await Credential.findByIdAndUpdate(credentialId, {
-                    account
-                }, { new: true })
-            } catch (error) {
-                console.log("Error updating account/email", error)
-                res.status(500).json({ message: "Internal Server Error" });
+            if (existingCredential.account == account) {
+            }
+            else {
+                try {
+                    await Credential.findByIdAndUpdate(credentialId, {
+                        account
+                    }, { new: true })
+                } catch (error) {
+                    console.log("Error updating account/email", error)
+                    return res.status(500).json({ message: "Internal Server Error" });
+                }
             }
         }
 
         if (password) {
-            try {
-                const encryptionKey = decryptEncryptionKey(req.user.recoveryKey.encryptedEncryptionKey, req.user.recoveryKey.iv, req.user.recoveryKey.authTag)
-                const { cipherText, iv, authTag } = encryptSymmetric(encryptionKey, password)
+            const encryptionKey = decryptEncryptionKey(req.user.recoveryKey.encryptedEncryptionKey, req.user.recoveryKey.iv, req.user.recoveryKey.authTag)
+            const decryptedPassword = decryptSymmetric(encryptionKey, existingCredential.password, existingCredential.iv, existingCredential.authTag)
+            if (decryptedPassword == password) {
+            }
+            else {
+                try {
+                    const encryptionKey = decryptEncryptionKey(req.user.recoveryKey.encryptedEncryptionKey, req.user.recoveryKey.iv, req.user.recoveryKey.authTag)
+                    const { cipherText, iv, authTag } = encryptSymmetric(encryptionKey, password)
 
-                await Credential.findByIdAndUpdate(credentialId, {
-                    password: cipherText,
-                    iv,
-                    authTag
-                }, { new: true })
-            } catch (error) {
-                console.log("Error updating password", error)
-                res.status(500).json({ message: "Internal Server Error" });
+                    await Credential.findByIdAndUpdate(credentialId, {
+                        password: cipherText,
+                        iv,
+                        authTag
+                    }, { new: true })
+                } catch (error) {
+                    console.log("Error updating password", error)
+                    return res.status(500).json({ message: "Internal Server Error" });
+                }
             }
         }
 
         if (websiteUrl) {
-            try {
-                await Credential.findByIdAndUpdate(credentialId, {
-                    websiteUrl
-                }, { new: true })
-            } catch (error) {
-                console.log("Error updating website link", error)
-                res.status(500).json({ message: "Internal Server Error" });
+            if (existingCredential.websiteUrl == websiteUrl) {
+            }
+            else {
+                try {
+                    await Credential.findByIdAndUpdate(credentialId, {
+                        websiteUrl
+                    }, { new: true })
+                } catch (error) {
+                    console.log("Error updating website link", error)
+                    return res.status(500).json({ message: "Internal Server Error" });
+                }
             }
         }
         return res.status(200).json({ message: "Credential updated successfully" })
     } catch (error) {
         console.log("Error updating password", error)
-        res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -141,7 +159,7 @@ const deleteCredential = async (req, res) => {
 
     } catch (error) {
         console.log("Error deleting credential", error)
-        res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
