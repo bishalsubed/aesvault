@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage'
 import { useUserStore } from './stores/useUserStore'
 import LoadingSpinner from './components/LoadingSpinner'
 import { Toaster } from 'react-hot-toast'
+import CredentialPage from './pages/CredentialPage'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path='/signup' element={user ? <Navigate to="/dashboard" /> : <SignUpPage />} />
           <Route path='/login' element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
           <Route path='/dashboard' element={user ? <DashboardPage /> : <Navigate to="/login" />} />
+          <Route path='/dashboard/:credentialId' element={<CredentialPage />} />
         </Routes>
       </div>
       <Toaster />
