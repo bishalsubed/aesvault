@@ -6,16 +6,17 @@ import { Credential } from "@/types";
 interface updateData {
     account: string,
     password: string;
-    webisteLink: string;
+    websiteUrl: string;
 }
 
 interface credentialStore {
     credentials: Credential[];
+    credential: Credential;
     loading: boolean;
     setCredential: (credentials: Credential[]) => void;
 
     createCredential: (data: { account: string, password: string, websiteUrl: string }) => Promise<void>;
-    getCredentials: () => Promise<void>;
+    getAllCredentials: () => Promise<void>;
     getCredentialById: (credentialId: string) => Promise<void>;
     updateCredential: (credentialId: string, updateData: updateData) => Promise<void>;
     deleteCredential: (credentialId: string) => Promise<void>;
@@ -23,10 +24,32 @@ interface credentialStore {
 
 export const useCredentialStore = create<credentialStore>((set) => ({
     credentials: [],
+    credential: {
+        _id: "",
+        account: "",
+        password: "",
+        websiteUrl: "",
+        owner: "",
+        createdAt: "",
+        updatedAt: "",
+    },
     loading: false,
 
     setCredential: (credentials) => set({ credentials }),
 
+
+    getAllCredentials: async () => {
+        set({ loading: true })
+        try {
+            const response = await axios.get("/credentials/getCredentials")
+            set({ credentials: response.data.credentials })
+        } catch (error: any) {
+            console.log("Error while getting credential", error);
+            toast.error(error.response?.data?.message || "An error occurred, please try again later");
+        } finally {
+            set({ loading: false })
+        }
+    },
 
     createCredential: async ({ account, password, websiteUrl }) => {
         set({ loading: true });
@@ -42,22 +65,11 @@ export const useCredentialStore = create<credentialStore>((set) => ({
         }
     },
 
-    getCredentials: async () => {
-        set({ loading: true })
-        try {
-            const response = await axios.get("/credentials/getCredentials")
-            set({ credentials: response.data.credentials })
-        } catch (error: any) {
-            console.log("Error while getting credential", error);
-            toast.error(error.response?.data?.message || "An error occurred, please try again later");
-        }
-    },
-
     getCredentialById: async (credentialId) => {
         set({ loading: true })
         try {
             const response = await axios.get(`credentials/getCredential/${credentialId}`);
-            set({ credentials: response.data.credential })
+            set({ credential: response.data.credential })
         } catch (error: any) {
             console.log("Error while getting credential via id", error);
             toast.error(error.response?.data?.message || "An error occurred, please try again later");
@@ -69,8 +81,8 @@ export const useCredentialStore = create<credentialStore>((set) => ({
     updateCredential: async (credentialId, updateData) => {
         set({ loading: true })
         try {
-            const response = await axios.put(`credentials/updateCredentials/${credentialId}`, updateData);
-            set({ credentials: response.data.credential })
+            await axios.put(`credentials/updateCredentials/${credentialId}`, updateData);
+            toast.success("Credential Updated Successfully")
         } catch (error: any) {
             console.log("Error while getting credential via id", error);
             toast.error(error.response?.data?.message || "An error occurred, please try again later");

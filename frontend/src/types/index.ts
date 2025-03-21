@@ -3,7 +3,7 @@ export interface Credential {
 	_id: string;
 	account: string;
 	password: string;
-	webisteLink: string | null;
+	websiteUrl: string;
     owner:string;
 	createdAt: string;
 	updatedAt: string;
