@@ -60,6 +60,22 @@ const CredentialPage = () => {
         setIsPasswordVisible(!isPasswordVisible)
     }
 
+    const generateRobustPassword = () => { 
+        const smallAlphabets = "abcdefghijklmnopqrstuvwxyz";
+        const CapitalAlphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const numbers = "0123456789";
+        const specialCharacters = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+        const allChars =  smallAlphabets + CapitalAlphabets + numbers + specialCharacters;
+
+        let password = "";
+        for(let i=0; i<12; i++){
+            const randomIndex = Math.floor(Math.random() * allChars.length);
+            password += allChars.charAt(randomIndex);
+        }
+
+        setUpdatedCredential((prev) => ({...prev, password:password}))
+}
+
 
     if (!credential) <LoadingSpinner />
 
@@ -76,7 +92,7 @@ const CredentialPage = () => {
                         className='border-2 border-gray-200 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto'
                     >
 
-                        <div className='space-y-6'>
+                        <div className='space-y-8 relative'>
                             <div>
                                 <label className="block text-sm font-medium text-green-700" htmlFor="email">Email</label>
                                 <div className="mt-1 relative rounded-md shadow-sm">
@@ -95,7 +111,7 @@ const CredentialPage = () => {
                                     />
                                 </div>
                             </div>
-                            <div>
+                            <div className="space-y-2">
                                 <label className="block text-sm font-medium text-green-700" htmlFor="password">Password</label>
                                 <div className="mt-1 relative rounded-md shadow-sm">
                                     <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -116,6 +132,26 @@ const CredentialPage = () => {
                                         {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
                                     </div>
                                 </div>
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <button className="absolute right-0 px-1 py-1 border border-transparent rounded-md 
+					shadow-sm text-xs font-medium text-white bg-green-600 hover:bg-green-700 
+					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">Generate Password</button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                This action cannot be undone. This will permanently replace your credential
+                                                and changes your data in our servers.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogAction onClick={generateRobustPassword}>Continue</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </div>
 
                             <div>
@@ -215,7 +251,8 @@ const CredentialPage = () => {
                             Necessities For Robust Password
                         </div>
                         <PasswordStrengthMeter password={updatedCredential.password} />
-                        <ul className="list-disc pl-5 text-gray-600 italic text-sm mt-3">
+                        <div className="font-medium mt-1">Basic Necessities :</div>
+                        <ul className="list-disc pl-5 text-gray-600 italic text-sm mt-1">
                             <li>At least 12 characters long</li>
                             <li>Includes uppercase and lowercase letters</li>
                             <li>Contains numbers and special characters (@, #, $, etc.)</li>
