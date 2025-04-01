@@ -135,15 +135,15 @@ const CredentialPage = () => {
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
                                         <button className="absolute right-0 px-1 py-1 border border-transparent rounded-md 
-					shadow-sm text-xs font-medium text-white bg-green-600 hover:bg-green-700 
-					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">Generate Password</button>
+					shadow-sm text-xs font-medium text-white bg-gray-600 hover:bg-green-700 
+					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50">Generate Password</button>
                                     </AlertDialogTrigger>
                                     <AlertDialogContent>
                                         <AlertDialogHeader>
                                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                             <AlertDialogDescription>
-                                                This action cannot be undone. This will permanently replace your credential
-                                                and changes your data in our servers.
+                                                This action cannot be undone. This will temporarily replace your credential
+                                                and changes your data in your display until updated.
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>

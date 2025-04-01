@@ -148,13 +148,18 @@ const updateCredential = async (req, res) => {
 
 const deleteCredential = async (req, res) => {
     try {
+        const userId = req.user._id
         const { credentialId } = req.params;
         if (!credentialId) throw new Error("Credential ID is required");
+
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
 
         const credential = await Credential.findById(credentialId)
         if (!credential) throw new Error("Credential does not exist")
 
         await Credential.findByIdAndDelete(credentialId)
+        user.credentials = user.credentials.filter(cred => cred.toString() !== credentialId.toString())
         return res.status(200).json({ message: "Credential deleted successfully" })
 
     } catch (error) {

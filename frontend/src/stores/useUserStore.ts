@@ -12,6 +12,8 @@ interface userStore {
     login: (data: { email: string; password: string }) => Promise<void>;
     logout: () => Promise<void>;
     checkAuth: () => Promise<void>;
+    forgotPassword: (email: string) => Promise<void>;
+    resetPassword: (data: { resetToken: string, password: string }) => Promise<void>;
 }
 
 export const useUserStore = create<userStore>((set) => ({
@@ -75,6 +77,32 @@ export const useUserStore = create<userStore>((set) => ({
             set({ user: null })
         } finally {
             set({ loading: false, checkingAuth: false })
+        }
+    },
+
+    forgotPassword: async (email) => {
+        set({ loading: true })
+        try {
+            await axios.post("/users/forgot-password", { email })
+            toast.success("Reset Email sent successfully")
+        } catch (error: any) {
+            console.log(error.response?.data?.message)
+            toast.error(error.response?.data?.message || "An error occurred, please try again later");
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    resetPassword: async ({ resetToken, password }) => {
+        set({ loading: true })
+        try {
+            await axios.post(`/users/reset-password/${resetToken}`, {password})
+            toast.success("password reset successfully")
+        } catch (error: any) {
+            console.log(error.response?.data?.message)
+            toast.error(error.response?.data?.message || "An error occurred, please try again later");
+        } finally {
+            set({ loading: false })
         }
     }
 }))

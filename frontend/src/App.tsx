@@ -10,6 +10,8 @@ import { useUserStore } from './stores/useUserStore'
 import LoadingSpinner from './components/LoadingSpinner'
 import { Toaster } from 'react-hot-toast'
 import CredentialPage from './pages/CredentialPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
           <Route path='/login' element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
           <Route path='/dashboard' element={user ? <DashboardPage /> : <Navigate to="/login" />} />
           <Route path='/dashboard/:credentialId' element={<CredentialPage />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='/reset-password/:resetToken' element={<ResetPasswordPage />} />
         </Routes>
       </div>
       <Toaster />

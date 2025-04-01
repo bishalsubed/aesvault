@@ -76,7 +76,7 @@ const LoginPage = () => {
                                 {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
                             </div>
                         </div>
-                        <div className="text-sm text-green-600 cursor-pointer text-right mt-1 underline underline-offset-2">Forgot Password?</div>
+                        <Link to={"/forgot-password/"} className="text-sm flex justify-end text-green-600 cursor-pointer items-en mt-1 underline underline-offset-2">Forgot Password?</Link>
                     </div>
                     <button
                         type='submit'
