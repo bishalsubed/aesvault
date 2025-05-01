@@ -14,9 +14,11 @@ interface userStore {
     checkAuth: () => Promise<void>;
     forgotPassword: (email: string) => Promise<void>;
     resetPassword: (data: { resetToken: string, password: string }) => Promise<void>;
+    changePassword: (data: { oldPassword: string, newPassword: string }) => Promise<void>;
+    refreshToken: () => Promise<void>;
 }
 
-export const useUserStore = create<userStore>((set) => ({
+export const useUserStore = create<userStore>((set, get) => ({
     user: null,
     loading: false,
     checkingAuth: true,
@@ -96,8 +98,39 @@ export const useUserStore = create<userStore>((set) => ({
     resetPassword: async ({ resetToken, password }) => {
         set({ loading: true })
         try {
-            await axios.post(`/users/reset-password/${resetToken}`, {password})
+            await axios.post(`/users/reset-password/${resetToken}`, { password })
             toast.success("password reset successfully")
+        } catch (error: any) {
+            console.log(error.response?.data?.message)
+            toast.error(error.response?.data?.message || "An error occurred, please try again later");
+        } finally {
+            set({ loading: false })
+        }
+    },
+    changePassword: async ({ oldPassword, newPassword }) => {
+        set({ loading: true })
+        try {
+            await axios.post(`/users/change-password`, { oldPassword, newPassword })
+            toast.success("password changed successfully")
+        } catch (error: any) {
+            console.log(error.response?.data?.message)
+            toast.error(error.response?.data?.message || "An error occurred, please try again later");
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+
+    refreshToken: async () => {
+
+        if (get().checkingAuth) return;
+
+        set({ checkingAuth: true })
+        set({ loading: true })
+        try {
+            const response = await axios.post("/users/refresh-token")
+            set({ checkingAuth: false })
+            return response.data
         } catch (error: any) {
             console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message || "An error occurred, please try again later");
@@ -106,3 +139,31 @@ export const useUserStore = create<userStore>((set) => ({
         }
     }
 }))
+
+
+let refreshPromise: Promise<void> | null = null;
+
+axios.interceptors.request.use(
+    (response) => response,
+    async(error) => {
+        const originalRequest = error.config;
+        if(error.response?.status === 401 && !originalRequest._retry){
+            originalRequest._retry = true;
+            try {
+                if(refreshPromise){
+                    await refreshPromise;
+                    return axios(originalRequest);
+                }
+                refreshPromise = useUserStore.getState().refreshToken();
+                await refreshPromise;
+                
+                refreshPromise = null;
+                return axios(originalRequest);
+            } catch (error) {
+                useUserStore.getState().logout();
+                return Promise.reject(error);
+            }
+        }
+        return Promise.reject(error);
+    }
+)
