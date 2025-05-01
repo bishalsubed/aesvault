@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast'
 import CredentialPage from './pages/CredentialPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import ChangePasswordPage from './pages/ChangePasswordPage'
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path='/dashboard/:credentialId' element={<CredentialPage />} />
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
           <Route path='/reset-password/:resetToken' element={<ResetPasswordPage />} />
+          <Route path='/change-password' element={user ? <ChangePasswordPage /> : <Navigate to="/login" />} />
         </Routes>
       </div>
       <Toaster />

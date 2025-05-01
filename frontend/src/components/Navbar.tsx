@@ -1,4 +1,4 @@
-import { LogIn, LogOut, UserPlus } from "lucide-react"
+import { LogIn, LogOut, UserPlus, Home } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useUserStore } from "@/stores/useUserStore"
 
@@ -17,6 +17,21 @@ const Navbar = () => {
                     </Link>
                     <nav className="flex flex-wrap justify-center items-center gap-2">
                         {user ? (
+                            <>
+                            <Link
+                                to={"/dashboard"}
+                                className='bg-green-600 hover:bg-green-700 py-[10px] px-2
+                                rounded-md flex transition duration-300 ease-in-out'
+                            >
+                                <Home size={18} />
+                            </Link>
+                            <Link
+                                to={"/change-password"}
+                                className='bg-green-600 hover:bg-green-700 py-2 px-3 
+                                rounded-md flex items-center transition duration-300 ease-in-out'
+                            >
+                                Change Password
+                            </Link>
                             <button
                                 className='bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
 						rounded-md flex items-center transition duration-300 ease-in-out'
@@ -25,6 +40,7 @@ const Navbar = () => {
                                 <LogOut size={18} />
                                 <span className='hidden sm:inline ml-2'>Log Out</span>
                             </button>
+                        </>
                         ) : (
                             <>
                                 <Link
