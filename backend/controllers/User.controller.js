@@ -185,7 +185,7 @@ const changeCurrentPassword = async (req, res) => {
     } catch (error) {
         console.log("Error changing current password", error)
         return res.status(500).json({ message: "Error changing current password" })
-    } y
+    }
 }
 
 const getCurrentUser = async (req, res) => {
