@@ -20,6 +20,7 @@ interface credentialStore {
     getCredentialById: (credentialId: string) => Promise<void>;
     updateCredential: (credentialId: string, updateData: updateData) => Promise<void>;
     deleteCredential: (credentialId: string) => Promise<void>;
+    getCredentialByWebsiteUrl: (websiteUrl: string) => Promise<void>;
 }
 
 export const useCredentialStore = create<credentialStore>((set) => ({
@@ -103,6 +104,19 @@ export const useCredentialStore = create<credentialStore>((set) => ({
             toast.success("Credential deleted successfully!");
         } catch (error: any) {
             console.log("Error while getting credential via id", error);
+            toast.error(error.response?.data?.message || "An error occurred, please try again later");
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    getCredentialByWebsiteUrl: async (websiteUrl) => {
+        set({ loading: true })
+        try {
+            const response = await axios.get(`/credentials/searchCredential?search=${websiteUrl}`);
+            set({ credentials: response.data.credentials })
+        } catch (error: any) {
+            console.log("Error while getting credential via query", error);
             toast.error(error.response?.data?.message || "An error occurred, please try again later");
         } finally {
             set({ loading: false })
