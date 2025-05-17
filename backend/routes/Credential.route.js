@@ -4,7 +4,8 @@ import {
     deleteCredential, 
     getCredentials, 
     getCredentialById,
-    updateCredential
+    updateCredential,
+    getCredentialByWebsiteUrl
 } from "../controllers/Credential.controller.js";
 
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -22,6 +23,8 @@ router.get("/getCredential/:credentialId", getCredentialById);
 router.put("/updateCredentials/:credentialId", updateCredential);
 
 router.delete("/deleteCredentials/:credentialId", deleteCredential );
+
+router.get("/searchCredential", getCredentialByWebsiteUrl);
 
 
 export default router;
