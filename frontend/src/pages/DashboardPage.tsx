@@ -21,7 +21,7 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div className="absolute inset-0 z-[-2] bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div>
-      <div className="relative container mx-auto px-4 py-10">
+      <div className="relative mt-10 md:mt-0 container mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold mb-6 text-green-700 text-center underline underline-offset-4">Dashboard</h1>
       </div>
       <div className='flex justify-evenly mb-8'>

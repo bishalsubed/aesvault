@@ -81,13 +81,13 @@ const CredentialPage = () => {
 
     return (
         <div className="min-h-screen">
-            <Button variant="ghost" onClick={() => navigate(-1)} className="mt-4">
+            <Button variant="ghost" onClick={() => navigate(-1)} className="mt-16 md:mt-4">
                 <ChevronLeft className="h-4 w-4" />
                 Back
             </Button>
-            <h1 className="text-2xl text-green-700 text-center font-medium underline underline-offset-4 pb-6">{credential?.websiteUrl ? credential.websiteUrl.split("/")[2].split(".")[0].toUpperCase() || "Unknown" : "unknown"}</h1>
-            <div className="flex justify-between items-center px-4 py-10">
-                <div className="w-1/2">
+            <h1 className="text-2xl text-green-700 text-center font-medium underline underline-offset-4 md:pb-6">{credential?.websiteUrl ? credential.websiteUrl.split("/")[2].split(".")[0].toUpperCase() || "Unknown" : "unknown"}</h1>
+            <div className="flex flex-col md:flex-row md:justify-between items-center px-4 py-10">
+                <div className="w-full md:w-1/2">
                     <div
                         className='border-2 border-gray-200 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto'
                     >
@@ -107,7 +107,7 @@ const CredentialPage = () => {
                                         placeholder="example@example.com"
                                         onChange={(e) => setUpdatedCredential({ ...updatedCredential, account: e.target.value })}
                                         className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                                     />
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ const CredentialPage = () => {
                                         placeholder="******"
                                         onChange={(e) => setUpdatedCredential({ ...updatedCredential, password: e.target.value })}
                                         className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                                     />
                                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
                                         {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
@@ -168,16 +168,16 @@ const CredentialPage = () => {
                                         placeholder="https://example.com"
                                         onChange={(e) => setUpdatedCredential({ ...updatedCredential, websiteUrl: e.target.value })}
                                         className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                                     />
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between gap-2">
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild><button
                                         type='submit'
                                         className='flex justify-center py-2 px-3 border border-transparent rounded-md 
-					shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 
+					shadow-sm text-sm  font-medium text-white bg-green-600 hover:bg-green-700 
 					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50'
                                         disabled={loading}
                                     >
@@ -189,7 +189,7 @@ const CredentialPage = () => {
                                         ) : (
                                             <>
                                                 <SquarePen className='mr-2 h-5 w-5' />
-                                                Update Credential
+                                                Update
                                             </>
                                         )}
                                     </button></AlertDialogTrigger>
@@ -223,7 +223,7 @@ const CredentialPage = () => {
                                         ) : (
                                             <>
                                                 <Trash className='mr-2 h-5 w-5' />
-                                                Delete Credential
+                                                Delete
                                             </>
                                         )}
                                     </button></AlertDialogTrigger>
@@ -245,7 +245,7 @@ const CredentialPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-1/2">
+                <div className="w-full md:w-1/2">
                     <div className="flex flex-col gap-1 border-2 border-gray-200 shadow-lg rounded-lg px-8 py-4 mb-8 max-w-xl mx-auto">
                         <div className="text-green-700 text-xl underline underline-offset-4">
                             Necessities For Robust Password

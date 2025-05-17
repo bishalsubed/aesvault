@@ -13,6 +13,7 @@ import CredentialPage from './pages/CredentialPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
+import CredentialsPageForPhone from './pages/credentialsPageForPhone'
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
           <Route path='/reset-password/:resetToken' element={<ResetPasswordPage />} />
           <Route path='/change-password' element={user ? <ChangePasswordPage /> : <Navigate to="/login" />} />
+          <Route path='/credential/:credentialId' element={user ? <CredentialsPageForPhone /> : <Navigate to="/login" />} />
         </Routes>
       </div>
       <Toaster />
