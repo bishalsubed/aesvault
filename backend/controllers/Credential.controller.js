@@ -168,10 +168,26 @@ const deleteCredential = async (req, res) => {
     }
 }
 
+const getCredentialByWebsiteUrl = async (req, res) => {
+    try {
+        const {search} = req.query;
+        const encryptedPotentialCredentials = await Credential.find({
+            websiteUrl:{$regex: search, $options:"i" }
+        })
+        if (!encryptedPotentialCredentials) throw new Error("No credentials found")
+        
+        return res.status(200).json({ credentials: encryptedPotentialCredentials })
+    } catch (error) {
+        console.log("Error getting credential by website URL", error)
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 export {
     createCredential,
     getCredentials,
     getCredentialById,
     updateCredential,
-    deleteCredential
+    deleteCredential,
+    getCredentialByWebsiteUrl
 }
