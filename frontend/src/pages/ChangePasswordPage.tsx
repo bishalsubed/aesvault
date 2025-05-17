@@ -71,7 +71,7 @@ const ChangePasswordPage = () => {
     }
     return (
         <div className="min-h-screen">
-            <Button variant="ghost" onClick={() => navigate(-1)} className="mt-4">
+            <Button variant="ghost" onClick={() => navigate(-1)} className="mt-16 md:mt-4">
                 <ChevronLeft className="h-4 w-4" />
                 Back
             </Button>

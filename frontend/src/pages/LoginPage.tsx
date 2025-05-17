@@ -33,7 +33,7 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="flex flex-col justify-center py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-center mt-10 py-8 sm:px-6 lg:px-8">
             <h2 className="sm:mx-auto sm:w-full sm:max-w-md mt-6 text-3xl font-bold text-center text-green-600">Login To Your Account</h2>
             <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md py-7 px-3 sm:rounded-lg sm:px-10 border-2 shadow-sm">
                 <form className="space-y-6" onSubmit={handleSubmit} method="POST">
@@ -51,7 +51,7 @@ const LoginPage = () => {
                                 placeholder="example@example.com"
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                             />
                         </div>
                     </div>
@@ -70,7 +70,7 @@ const LoginPage = () => {
                                 placeholder="******"
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                 className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                             />
                             <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
                                 {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}

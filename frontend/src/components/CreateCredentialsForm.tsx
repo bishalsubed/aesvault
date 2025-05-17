@@ -38,9 +38,9 @@ const CreateCredentialsForm = () => {
 
     return (
         <div
-            className='border-2 border-gray-200 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto'
+            className='border-2 border-gray-200 shadow-lg rounded-lg p-6 md:p-8 mb-8 max-w-xl mx-auto'
         >
-            <h2 className='text-2xl mb-6 text-green-700 underline underline-offset-4'>Create New Credential</h2>
+            <h2 className='text-xl md:text-2xl mb-6 text-green-700 underline underline-offset-4'>Create New Credential</h2>
 
             <form onSubmit={handleSubmit} className='space-y-6'>
                 <div>
@@ -57,7 +57,7 @@ const CreateCredentialsForm = () => {
                             placeholder="example@example.com"
                             onChange={(e) => setNewCredential({ ...newCredential, account: e.target.value })}
                             className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                         />
                     </div>
                 </div>
@@ -76,7 +76,7 @@ const CreateCredentialsForm = () => {
                             placeholder="******"
                             onChange={(e) => setNewCredential({ ...newCredential, password: e.target.value })}
                             className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                         />
                         <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
                             {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
@@ -98,7 +98,7 @@ const CreateCredentialsForm = () => {
                             placeholder="https://example.com"
                             onChange={(e) => setNewCredential({ ...newCredential, websiteUrl: e.target.value })}
                             className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
                         />
                     </div>
                 </div>

@@ -7,15 +7,16 @@ const Navbar = () => {
     const { user, logout } = useUserStore();
 
     return (
-        <header className=" bg-slate-800 text-white fixed top-0 right-0 w-full shadow-lg  border-b-2 border-b-green-600 z-50">
-            <div className="container mx-auto px-4 py-3">
-                <div className="flex flex-wrap justify-between items-center">
+        <header className="bg-slate-800 text-white fixed top-0 right-0 w-full shadow-lg  border-b-2 border-b-green-600 z-50">
+            <div className="md:container mx-auto md:px-4 py-3">
+                <div className="flex flex-col md:flex-row gap-3 flex-wrap md:justify-between items-center">
                     <Link to='/' className='text-2xl font-bold items-center flex'>
                         <span className="text-green-400">&lt;</span>
                         AES
                         <span className="text-green-400">Vault /&gt;</span>
                     </Link>
-                    <nav className="flex flex-wrap justify-center items-center gap-2">
+                    <div className="border-t-2 border-gray-500 w-full md:hidden"></div>
+                    <nav className="flex flex-wrap justify-between items-center gap-4">
                         {user ? (
                             <>
                             <Link
