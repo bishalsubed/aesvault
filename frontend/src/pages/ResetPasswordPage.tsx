@@ -2,7 +2,7 @@ import { useUserStore } from "@/stores/useUserStore"
 import { EyeIcon, EyeOff, Loader, Lock, SquarePen } from "lucide-react"
 import { useState, useRef } from "react"
 import toast from "react-hot-toast"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 const ForgotPasswordPage = () => {
 
@@ -13,6 +13,7 @@ const ForgotPasswordPage = () => {
         password: "",
         confirmPassword: ""
     })
+    const navigate = useNavigate();
     const passwordRef = useRef<HTMLInputElement>(null);
     const { loading, resetPassword } = useUserStore()
 
@@ -29,6 +30,7 @@ const ForgotPasswordPage = () => {
                     password: formData.password
                 }
                 resetPassword(data)
+                navigate("/login")
             }
         }
     }
