@@ -74,9 +74,8 @@ const CredentialsList = () => {
 
   useEffect(() => {
     getAllCredentials();
-    setTotalPages(Math.ceil(credentials.length / postPerPage));
   }, [])
-
+  
   useEffect(() => {
     const fetchSearchedCredentials = setTimeout(() => {
       if (searchTerm.length > 0) {
@@ -90,6 +89,9 @@ const CredentialsList = () => {
     return () => clearTimeout(fetchSearchedCredentials)
   }, [searchTerm])
 
+  useEffect(() => {
+  setTotalPages(Math.ceil(credentials.length / postPerPage));
+}, [credentials.length, paginatedCredentials]);
 
 
   if (loading) <LoadingSpinner />
