@@ -206,7 +206,7 @@ const CredentialsList = () => {
                   ))}
                 </>
               ) : (
-                <div className='text-center text-gray-400'>Add credentials to get Started</div>
+                <p className='text-center text-gray-400'>Add credentials to get Started</p>
               )
               }
             </tbody>
