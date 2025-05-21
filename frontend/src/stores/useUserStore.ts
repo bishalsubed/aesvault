@@ -15,7 +15,7 @@ interface userStore {
     forgotPassword: (email: string) => Promise<void>;
     resetPassword: (data: { resetToken: string, password: string }) => Promise<void>;
     changePassword: (data: { oldPassword: string, newPassword: string }) => Promise<void>;
-    refreshToken: () => Promise<void>;
+    refreshToken: () => Promise<{ accessToken: string, refreshToken: string } | undefined>;
 }
 
 export const useUserStore = create<userStore>((set, get) => ({
@@ -121,7 +121,7 @@ export const useUserStore = create<userStore>((set, get) => ({
     },
 
 
-    refreshToken: async () => {
+    refreshToken: async (): Promise<{ accessToken: string, refreshToken: string } | undefined> => {
 
         if (get().checkingAuth) return;
 
@@ -141,27 +141,50 @@ export const useUserStore = create<userStore>((set, get) => ({
 }))
 
 
-let refreshPromise: Promise<void> | null = null;
+let isRefreshing = false;
+let failedQueue: any[] = [];
 
-axios.interceptors.request.use(
+const processQueue = (error: any, token: string | null = null) => {
+    failedQueue.forEach((prom) => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+
+    failedQueue = [];
+};
+
+
+axios.interceptors.response.use(
     (response) => response,
-    async(error) => {
+    async (error) => {
         const originalRequest = error.config;
-        if(error.response?.status === 401 && !originalRequest._retry){
-            originalRequest._retry = true;
-            try {
-                if(refreshPromise){
-                    await refreshPromise;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                return new Promise(function (resolve, reject) {
+                    failedQueue.push({ resolve, reject });
+                }).then((token) => {
+                    originalRequest.headers["Authorization"] = `Bearer ${token}`;
                     return axios(originalRequest);
-                }
-                refreshPromise = useUserStore.getState().refreshToken();
-                await refreshPromise;
-                
-                refreshPromise = null;
+                })
+                    .catch((err) => Promise.reject(err));
+            }
+            originalRequest._retry = true;
+            isRefreshing = true;
+            try {
+                const data = await useUserStore.getState().refreshToken();
+                const newAccessToken = data?.accessToken;
+                processQueue(null, newAccessToken);
+                originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
                 return axios(originalRequest);
             } catch (error) {
+                processQueue(error, null);
                 useUserStore.getState().logout();
                 return Promise.reject(error);
+            } finally {
+                isRefreshing = false;
             }
         }
         return Promise.reject(error);

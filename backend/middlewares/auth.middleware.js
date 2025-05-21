@@ -14,6 +14,6 @@ export const verifyJWT = async (req, res, next) => {
         next();
     } catch (error) {
         console.log("Error verifying JWT", error)
-        return res.status(500).json({ message: "Error verifying JWT" })
+        return res.status(401).json({ message: "Error verifying JWT" })
     }
 }

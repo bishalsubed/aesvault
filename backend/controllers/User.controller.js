@@ -155,7 +155,8 @@ const refreshAccessToken = async (req, res) => {
             .cookie("accessToken", accessToken, options)
             .cookie("refreshToken", refreshToken, options)
             .json({
-                message: "Token refreshed Successfully",
+                accessToken,
+                refreshToken
             })
 
     } catch (error) {
@@ -170,7 +171,7 @@ const changeCurrentPassword = async (req, res) => {
 
         const user = await User.findById(req.user?._id)
         if (!oldPassword.trim() || !newPassword.trim()) {
-            return res.status(400).json({message:"Please fill in all fields"})
+            return res.status(400).json({ message: "Please fill in all fields" })
         }
 
         if (oldPassword === newPassword) return res.status(400).json({ message: "New password cannot be the same as old password" })
