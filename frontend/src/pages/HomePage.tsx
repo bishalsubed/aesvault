@@ -9,7 +9,6 @@ const HomePage = () => {
     return (
         <div className="flex flex-col bg-gradient-to-b from-background to-green-900/10">
             <div className="container mx-auto px-4 py-12 flex-grow">
-                {/* Hero Section */}
                 <Card className="mb-12 border-none bg-gradient-to-r from-green-500/20 to-green-50/20">
                     <CardHeader>
                         <CardTitle className="text-5xl font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-green-100">
@@ -31,7 +30,6 @@ const HomePage = () => {
                     </CardContent>
                 </Card>
 
-                {/* Features Section */}
                 <Card className="mb-12 border-none">
                     <CardHeader>
                         <CardTitle className="text-3xl font-bold text-center text-green-600">
@@ -71,7 +69,6 @@ const HomePage = () => {
                     </CardContent>
                 </Card>
 
-                {/* Testimonials */}
                 <Card className="mb-12 border-none bg-gradient-to-r from-green-500/20 to-green-50/20">
                     <CardHeader>
                         <CardTitle className="text-3xl font-bold text-center text-green-600">
@@ -99,7 +96,6 @@ const HomePage = () => {
                 </Card>
             </div>
 
-            {/* Footer */}
             <footer className="bg-muted py-8">
                 <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
                     <div className="flex justify-center space-x-6 mb-4 md:mb-0">
