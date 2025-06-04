@@ -79,6 +79,7 @@ const CredentialsList = () => {
   useEffect(() => {
     const fetchSearchedCredentials = setTimeout(() => {
       if (searchTerm.length > 0) {
+        setCurrentPage(1);
         getCredentialByWebsiteUrl(searchTerm);
         paginatedCredentials = credentials.slice(firstPostIndex, lastPostIndex);
       } else {
