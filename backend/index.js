@@ -2,7 +2,6 @@ import express from "express";
 import dbConnect from "./lib/dbConnect.js"
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import bodyParser from "body-parser";
 import path from "path";
 import helmet from "helmet";
 import morgan from "morgan";
