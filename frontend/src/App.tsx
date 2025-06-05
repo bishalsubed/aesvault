@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import './App.css'
 import { Route, Routes, Navigate } from "react-router-dom"
 import HomePage from './pages/HomePage'
 import Navbar from './components/Navbar'
@@ -13,7 +12,7 @@ import CredentialPage from './pages/CredentialPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
-import CredentialsPageForPhone from './pages/credentialsPageForPhone'
+import CredentialsPageForPhone from './pages/CredentialsPageForPhone'
 
 
 function App() {
