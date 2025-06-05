@@ -8,6 +8,10 @@
       "DOM",
       "DOM.Iterable"
     ],
+    "types": [
+      "vite/client",
+      "node"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -17,14 +21,12 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -33,6 +35,7 @@
     },
   },
   "include": [
-    "src"
-, "../backend/helper/askOllama.ts"  ]
+    "src",
+    "vite-env.d.ts"
+  ]
 }
