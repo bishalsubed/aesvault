@@ -1,7 +1,7 @@
-import { fileURLToPath } from 'url'
-import path from 'path'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+const { fileURLToPath } = require('url')
+const path = require('path')
+const { defineConfig } = require('vite')
+const react = require('@vitejs/plugin-react')
 
 // Needed to define __dirname in ESM context
 const __filename = fileURLToPath(import.meta.url)
