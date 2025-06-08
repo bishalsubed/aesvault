@@ -28,5 +28,6 @@
   "include": [
     "src",
     "vite.config.ts"
-  ]
+  ],
+  "typeRoots": [ "./node_modules/@types", "../node_modules/@types", "../../node_modules/@types" ]
 }
