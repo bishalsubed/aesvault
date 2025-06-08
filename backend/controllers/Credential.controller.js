@@ -172,7 +172,8 @@ const getCredentialByWebsiteUrl = async (req, res) => {
     try {
         const {search} = req.query;
         const encryptedPotentialCredentials = await Credential.find({
-            websiteUrl:{$regex: search, $options:"i" }
+            websiteUrl:{$regex: search, $options:"i" },
+            owner:req.user._id,
         })
         if (!encryptedPotentialCredentials) throw new Error("No credentials found")
         
