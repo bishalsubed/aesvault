@@ -7,7 +7,7 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
@@ -17,13 +17,14 @@
     },
     "jsx": "react-jsx",
     "types": [
+      "vite/client",
       "node"
     ],
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": true
   },
   "include": [
     "src",
