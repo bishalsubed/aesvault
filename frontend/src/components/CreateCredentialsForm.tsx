@@ -37,17 +37,15 @@ const CreateCredentialsForm = () => {
     }
 
     return (
-        <div
-            className='border-2 border-gray-200 shadow-lg rounded-lg p-6 md:p-8 mb-8 max-w-xl mx-auto'
-        >
-            <h2 className='text-xl md:text-2xl mb-6 text-green-700 underline underline-offset-4'>Create New Credential</h2>
+        <div className="max-w-2xl mx-auto mt-10 p-8 rounded-xl shadow-xl border border-gray-200 bg-white/80 backdrop-blur-sm">
+            <h2 className="text-3xl font-bold text-green-700 mb-8 text-center tracking-tight">Create New Credential</h2>
 
-            <form onSubmit={handleSubmit} className='space-y-6'>
+            <form onSubmit={handleSubmit} className="space-y-7">
                 <div>
-                    <label className="block text-sm font-medium text-green-700" htmlFor="email">Email</label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                        <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                            <Mail className='h-5 w-5 text-green-700' aria-hidden='true' />
+                    <label htmlFor="email" className="block text-sm font-medium text-green-800 mb-1">Email</label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Mail className="h-5 w-5 text-green-600" />
                         </div>
                         <input
                             id="email"
@@ -56,39 +54,45 @@ const CreateCredentialsForm = () => {
                             value={newCredential.account}
                             placeholder="example@example.com"
                             onChange={(e) => setNewCredential({ ...newCredential, account: e.target.value })}
-                            className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                            className="w-full pl-10 pr-4 py-2 bg-green-50 border border-green-300 rounded-md text-sm placeholder-gray-500 shadow-sm focus:ring-green-500 focus:border-green-600 outline-none"
                         />
                     </div>
                 </div>
+
                 <div>
-                    <label className="block text-sm font-medium text-green-700" htmlFor="password">Password</label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                        <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                            <Lock className='h-5 w-5 text-green-700' aria-hidden='true' />
+                    <label htmlFor="password" className="block text-sm font-medium text-green-800 mb-1">Password</label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Lock className="h-5 w-5 text-green-600" />
                         </div>
                         <input
                             id="password"
                             ref={passwordRef}
-                            type="password"
+                            type={isPasswordVisible ? "text" : "password"}
                             required
                             value={newCredential.password}
                             placeholder="******"
                             onChange={(e) => setNewCredential({ ...newCredential, password: e.target.value })}
-                            className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                            className="w-full pl-10 pr-10 py-2 bg-green-50 border border-green-300 rounded-md text-sm placeholder-gray-500 shadow-sm focus:ring-green-500 focus:border-green-600 outline-none"
                         />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                            {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
+                        <div
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                        >
+                            {isPasswordVisible ? (
+                                <EyeIcon className="h-5 w-5 text-green-600" />
+                            ) : (
+                                <EyeOff className="h-5 w-5 text-green-600" />
+                            )}
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-green-700" htmlFor="email">Webiste Url</label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                        <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                            <Link className='h-5 w-5 text-green-700' aria-hidden='true' />
+                    <label htmlFor="websiteUrl" className="block text-sm font-medium text-green-800 mb-1">Website URL</label>
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Link className="h-5 w-5 text-green-600" />
                         </div>
                         <input
                             id="websiteUrl"
@@ -97,32 +101,31 @@ const CreateCredentialsForm = () => {
                             value={newCredential.websiteUrl}
                             placeholder="https://example.com"
                             onChange={(e) => setNewCredential({ ...newCredential, websiteUrl: e.target.value })}
-                            className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-						        placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                            className="w-full pl-10 pr-4 py-2 bg-green-50 border border-green-300 rounded-md text-sm placeholder-gray-500 shadow-sm focus:ring-green-500 focus:border-green-600 outline-none"
                         />
                     </div>
                 </div>
+
                 <button
-                    type='submit'
-                    className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md 
-					shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 
-					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50'
+                    type="submit"
+                    className="w-full flex justify-center items-center gap-2 py-2.5 px-4 bg-green-600 text-white text-sm font-medium rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition disabled:opacity-50"
                     disabled={loading}
                 >
                     {loading ? (
                         <>
-                            <Loader className='mr-2 h-5 w-5 animate-spin' aria-hidden='true' />
+                            <Loader className="h-5 w-5 animate-spin" />
                             Loading...
                         </>
                     ) : (
                         <>
-                            <PlusCircle className='mr-2 h-5 w-5' />
+                            <PlusCircle className="h-5 w-5" />
                             Create Credential
                         </>
                     )}
                 </button>
             </form>
         </div>
+
     )
 }
 
