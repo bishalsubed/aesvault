@@ -47,67 +47,77 @@ const ForgotPasswordPage = () => {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center py-8 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-bold text-green-700 mb-4">Reset Password</h1>
-            <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md py-7 px-3 sm:rounded-lg sm:px-10 border-2 shadow-sm">
+        <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-green-100 px-8 py-10 sm:p-12">
+                <div className="mb-8 text-center">
+                    <h1 className="text-3xl font-bold text-green-700 tracking-tight">Reset Your Password</h1>
+                    <p className="mt-2 text-sm text-gray-500">Choose a strong new password</p>
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-green-700" htmlFor="password">Password</label>
-                        <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                                <Lock className='h-5 w-5 text-green-700' aria-hidden='true' />
+                        <label htmlFor="password" className="block text-sm font-medium text-green-800 mb-1">
+                            New Password
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Lock className="h-5 w-5 text-green-600" />
                             </div>
                             <input
                                 id="password"
                                 ref={passwordRef}
-                                type="password"
+                                type={isPasswordVisible ? "text" : "password"}
                                 required
                                 value={formData.password}
-                                placeholder="**********"
+                                placeholder="Enter new password"
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-                                                placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+                                className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-green-50 text-sm placeholder-gray-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-600"
                             />
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                                {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
+                            <div
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                onClick={togglePasswordVisibility}
+                            >
+                                {isPasswordVisible ? (
+                                    <EyeIcon className="h-5 w-5 text-green-600" />
+                                ) : (
+                                    <EyeOff className="h-5 w-5 text-green-600" />
+                                )}
                             </div>
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-green-700" htmlFor="password">Confirm Password</label>
-                        <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                                <Lock className='h-5 w-5 text-green-700' aria-hidden='true' />
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-green-800 mb-1">
+                            Confirm Password
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Lock className="h-5 w-5 text-green-600" />
                             </div>
                             <input
-                                id="password"
+                                id="confirmPassword"
                                 type="password"
                                 required
                                 value={formData.confirmPassword}
-                                placeholder="*********"
+                                placeholder="Re-enter password"
                                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                                className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-                                                placeholder-gray-600 focus:outline-none focus:ring-green-500 focus:border-green-600 sm:text-sm'
+                                className="w-full pl-10 py-2 rounded-lg border border-gray-300 bg-green-50 text-sm placeholder-gray-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-600"
                             />
                         </div>
                     </div>
                     <button
-                        type='submit'
-                        className='w-full flex justify-center py-2 px-4 border border-transparent 
-                                                rounded-md shadow-sm text-sm font-medium text-white bg-green-600
-                                                hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-                                                focus:ring-green-500 transition duration-150 ease-in-out disabled:opacity-50'
+                        type="submit"
                         disabled={loading}
+                        className="w-full flex justify-center items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-150 disabled:opacity-50"
                     >
                         {loading ? (
                             <>
-                                <Loader className='mr-2 h-5 w-5 animate-spin' aria-hidden='true' />
-                                Loading...
+                                <Loader className="h-5 w-5 animate-spin" />
+                                <span>Updating...</span>
                             </>
                         ) : (
                             <>
-                                <SquarePen className='mr-2 h-5 w-5' aria-hidden='true' />
-                                Change Password
+                                <SquarePen className="h-5 w-5" />
+                                <span>Change Password</span>
                             </>
                         )}
                     </button>
