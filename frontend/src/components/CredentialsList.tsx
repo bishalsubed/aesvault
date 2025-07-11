@@ -75,7 +75,7 @@ const CredentialsList = () => {
   useEffect(() => {
     getAllCredentials();
   }, [])
-  
+
   useEffect(() => {
     const fetchSearchedCredentials = setTimeout(() => {
       if (searchTerm.length > 0) {
@@ -91,135 +91,126 @@ const CredentialsList = () => {
   }, [searchTerm])
 
   useEffect(() => {
-  setTotalPages(Math.ceil(credentials.length / postPerPage));
-}, [credentials.length, paginatedCredentials]);
+    setTotalPages(Math.ceil(credentials.length / postPerPage));
+  }, [credentials.length, paginatedCredentials]);
 
 
   if (loading) <LoadingSpinner />
 
   return (
     <>
-      <div
-        className='bg-gray-800 text-white hidden min-[900px]:block shadow-lg rounded-lg overflow-hidden max-w-7xl mx-auto pt-[1px] pb-5'>
-        <div className="relative flex items-center justify-end mr-[0.5px] mb-4">
-          <Search className='absolute size-5 right-[270px]' />
-          <Input
-            className='w-[200px] min-[415px]:w-[250px] sm:w-[300px] pl-8'
-            type="text"
-            placeholder="Webiste url..."
-            onChange={(e) => { setSearchTerm(e.target.value) }}
-          />
-        </div>
-        {loading ? (
-          <div className='flex justify-center items-center'>
-            <Loader className='size-8 text-white animate-spin' />
+      <div className="bg-gray-900 text-white hidden min-[900px]:block shadow-xl rounded-xl overflow-hidden max-w-7xl mx-auto pb-6">
+        <div className="flex items-center justify-between gap-4 px-6 py-4 sticky top-0 z-30 bg-gray-900/80 backdrop-blur-lg">
+          <h2 className="text-lg font-semibold text-white">Password Overview</h2>
+          <div className="relative w-full max-w-xs">
+            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+            <Input
+              className="w-full pl-10 pr-4 py-2 text-sm rounded-md bg-gray-800 border border-gray-700 placeholder-gray-400"
+              type="text"
+              placeholder="Website URL..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-        ) :
-          (<table className=' min-w-full divide-y divide-gray-700'>
-            <thead className='bg-gray-700'>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center items-center py-10">
+            <Loader className="h-8 w-8 text-white animate-spin" />
+          </div>
+        ) : (
+          <table className="min-w-full divide-y divide-gray-700 text-sm">
+            <thead className="bg-gray-800 text-gray-400 uppercase tracking-wide text-xs">
               <tr>
-                <th
-                  scope='col'
-                  className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-                >
-                  Account
-                </th>
-                <th
-                  scope='col'
-                  className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-                >
-                  Password
-                </th>
-                <th
-                  scope='col'
-                  className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-                >
-                  Webiste Url
-                </th>
+                <th className="px-6 py-3 text-left">Account</th>
+                <th className="px-6 py-3 text-left">Password</th>
+                <th className="px-6 py-3 text-left">Website</th>
+                <th className="px-6 py-3 text-center">Actions</th>
               </tr>
             </thead>
-
-            <tbody className='bg-gray-800 divide-y divide-gray-700'>
+            <tbody className="divide-y divide-gray-700">
               {credentials.length > 0 ? (
-                <>
-                  {paginatedCredentials?.map((credential) => (
-                    <tr key={credential._id} className='hover:bg-gray-700'>
-                      <td className='px-6 py-4 whitespace-nowrap'>
-                        <div className="flex items-center justify-between w-[220px]">
-                          <div className='text-sm font-medium text-white'>{credential.account}</div>
-                          <Copy className="size-4 text-gray-300 cursor-pointer" onClick={() => { copyToClipboard(credential.account) }} />
+                paginatedCredentials.map((credential, index) => (
+                  <tr key={credential._id} className={`group ${index % 2 ? 'bg-gray-800/30' : ''} hover:bg-gray-800/60 transition`}>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-between items-center max-w-[220px]">
+                        <span>{credential.account}</span>
+                        <Copy className="h-4 w-4 cursor-pointer text-gray-400" onClick={() => copyToClipboard(credential.account)} />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4 max-w-[250px]">
+                        <Input
+                          disabled
+                          id={credential._id}
+                          type={isPasswordVisible(credential._id) ? "text" : "password"}
+                          className="h-8 py-1 text-sm bg-gray-900 text-white border border-gray-700 w-full"
+                          defaultValue={credential.password}
+                        />
+                        <div className="flex items-center gap-2">
+                          <Copy className="h-4 w-4 cursor-pointer text-gray-400" onClick={() => copyToClipboard(credential.password)} />
+                          {isPasswordVisible(credential._id)
+                            ? <EyeIcon className="h-4 w-4 cursor-pointer text-gray-400" onClick={() => togglePasswordVisibility(credential._id)} />
+                            : <EyeOff className="h-4 w-4 cursor-pointer text-gray-400" onClick={() => togglePasswordVisibility(credential._id)} />
+                          }
                         </div>
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap'>
-                        <div className="flex items-center justify-between w-[225px] gap-4">
-                          <Input
-                            disabled
-                            id={credential._id}
-                            type={isPasswordVisible(credential._id) ? "text" : "password"}
-                            className='h-8 py-1 text-sm text-gray-50 bg-gray-800'
-                            defaultValue={credential.password}
-                          />
-                          <div className="flex items-center gap-4">
-                            <Copy className="size-4 text-gray-300 cursor-pointer" onClick={() => { copyToClipboard(credential.password) }} />
-                            <div className="flex items-center cursor-pointer" onClick={() => { togglePasswordVisibility(credential._id) }}>
-                              {isPasswordVisible(credential._id) ? (<EyeIcon className="size-4 text-gray-300" />) : (<EyeOff className="size-4 text-gray-300" />)}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap'>
-                        <div className="flex items-center justify-between w-[220px]">
-                          <a href={credential.websiteUrl} target="_blank" className='transition-transform hover:translate-y-[-2px] hover:underline delay-75 underline-offset-4 decoration-2 text-sm text-gray-300 cursor-pointer font-medium'>{credential.websiteUrl.split("/")[2]}</a>
-                          <Copy className="size-4 text-gray-300 cursor-pointer" onClick={() => { copyToClipboard(credential.websiteUrl!) }} />
-                        </div>
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm font-medium'>
-                        <div className="flex justify-center items-center gap-4">
-                          <Link to={`/dashboard/${credential._id}`}><button
-                            className='text-green-200 hover:text-green-400'
-                          >
-                            <Pencil className='h-5 w-5' />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-between items-center max-w-[230px]">
+                        <a
+                          href={credential.websiteUrl}
+                          target="_blank"
+                          className="text-gray-300 hover:text-white hover:underline underline-offset-2 transition-all"
+                        >
+                          {credential.websiteUrl.split("/")[2]}
+                        </a>
+                        <Copy className="h-4 w-4 cursor-pointer text-gray-400" onClick={() => copyToClipboard(credential.websiteUrl)} />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <div className="flex justify-center items-center gap-4">
+                        <Link to={`/dashboard/${credential._id}`}>
+                          <button className="p-2 rounded-full bg-gray-700 hover:bg-green-500 transition">
+                            <Pencil className="h-4 w-4 text-white" />
                           </button>
-                          </Link>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild><button
-                              className='text-red-400 hover:text-red-300'
-                            >
-                              <Trash className='h-5 w-5' />
-                            </button></AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This action cannot be undone. This will permanently delete your credential
-                                  and remove your data from our servers.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction className="bg-red-500 text-white hover:bg-red-600" onClick={() => deleteCredential(credential._id)}>Continue</AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </>
+                        </Link>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <button className="p-2 rounded-full bg-gray-700 hover:bg-red-600 transition">
+                              <Trash className="h-4 w-4 text-white" />
+                            </button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete your credential and remove your data from our servers.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction className="bg-red-500 text-white hover:bg-red-600" onClick={() => deleteCredential(credential._id)}>
+                                Continue
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </td>
+                  </tr>
+                ))
               ) : (
-                <p className='text-center text-gray-400'>Add credentials to get Started</p>
-              )
-              }
+                <tr>
+                  <td colSpan={4} className="text-center text-gray-400 py-6">Add credentials to get started</td>
+                </tr>
+              )}
             </tbody>
           </table>
-          )
-        }
-        < Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
-        />
+        )}
+
+        <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
       </div>
+
       <Card className="bg-gray-800 text-white block min-[900px]:hidden shadow-lg rounded-lg overflow-hidden max-w-7xl">
         <CardHeader>
           <CardTitle>
@@ -228,7 +219,7 @@ const CredentialsList = () => {
               <div className="relative flex items-center">
                 <Search className='absolute size-5 left-2' />
                 <Input
-                  className='w-[200px] min-[415px]:w-[250px] sm:w-[300px] pl-8'
+                  className='w-full pl-10 pr-4 py-2 text-sm rounded-md bg-gray-800 border border-gray-700 placeholder-gray-400'
                   type="text"
                   placeholder="Webiste url..."
                   onChange={(e) => { setSearchTerm(e.target.value) }}
@@ -307,6 +298,7 @@ const CredentialsList = () => {
         </CardContent>
       </Card>
     </>
+
   )
 }
 
