@@ -34,117 +34,119 @@ const SignUpPage = () => {
         setFormData({ username: "", email: "", password: "", confirmPassword: "" })
         navigate("/login")
     }
-    
+
     return (
-        <div className="flex flex-col justify-center mt-10 py-8 sm:px-6 lg:px-8">
-            <h2 className="sm:mx-auto sm:w-full sm:max-w-md mt-6 text-center text-3xl font-bold text-green-600">Create Your Account</h2>
-            <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md py-7 px-3 sm:rounded-lg sm:px-10 border-2 shadow-sm">
-                <form method="POST" onSubmit={handleSubmit} className='space-y-6'>
+        <div className="flex flex-col justify-center mt-20 py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-green-50 via-white to-green-100">
+            <h2 className="sm:mx-auto sm:w-full sm:max-w-md text-center text-3xl font-extrabold text-green-700">
+                Create Your Account
+            </h2>
+
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md bg-white/80 backdrop-blur-lg border border-green-100 shadow-md rounded-xl px-6 sm:px-10 py-10">
+                <form method="POST" onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="name" className="block test-sm font-medium text-green-700">Full Name</label>
+                        <label htmlFor="name" className="block text-sm font-medium text-green-700">Full Name</label>
                         <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                                <User className='h-5 w-5 text-green-700' aria-hidden='true' />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <User className="h-5 w-5 text-green-600" />
                             </div>
                             <input
                                 id="name"
                                 type="text"
                                 required
-                                value={formData.username}
                                 placeholder="eg. John Doe"
+                                value={formData.username}
                                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-700 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                                className="block w-full rounded-md border border-green-200 bg-green-50 py-2 pl-10 pr-3 text-gray-900 placeholder-gray-500 focus:border-green-600 focus:ring-green-500 sm:text-sm outline-none"
                             />
                         </div>
                     </div>
+
                     <div>
-                        <label htmlFor="email" className="block test-sm font-medium text-green-700">Email</label>
+                        <label htmlFor="email" className="block text-sm font-medium text-green-700">Email</label>
                         <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                                <Mail className='h-5 w-5 text-green-700' aria-hidden='true' />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Mail className="h-5 w-5 text-green-600" />
                             </div>
                             <input
                                 id="email"
                                 type="email"
                                 required
-                                value={formData.email}
                                 placeholder="example@example.com"
+                                value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-700 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                                className="block w-full rounded-md border border-green-200 bg-green-50 py-2 pl-10 pr-3 text-gray-900 placeholder-gray-500 focus:border-green-600 focus:ring-green-500 sm:text-sm outline-none"
                             />
                         </div>
                     </div>
+
                     <div>
-                        <label htmlFor="password" className="block test-sm font-medium text-green-700">Password</label>
+                        <label htmlFor="password" className="block text-sm font-medium text-green-700">Password</label>
                         <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                                <Lock className='h-5 w-5 text-green-700' aria-hidden='true' />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Lock className="h-5 w-5 text-green-600" />
                             </div>
                             <input
                                 id="password"
-                                type="password"
+                                type={isPasswordVisible ? 'text' : 'password'}
                                 ref={passwordRef}
                                 required
-                                value={formData.password}
                                 placeholder="Enter your password"
+                                value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-700 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                                className="block w-full rounded-md border border-green-200 bg-green-50 py-2 pl-10 pr-10 text-gray-900 placeholder-gray-500 focus:border-green-600 focus:ring-green-500 sm:text-sm outline-none"
                             />
                             <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                                {isPasswordVisible ? (<EyeIcon className="size-5 text-green-700" />) : (<EyeOff className="size-5 text-green-700" />)}
+                                {isPasswordVisible ? <EyeIcon className="h-5 w-5 text-green-600" /> : <EyeOff className="h-5 w-5 text-green-600" />}
                             </div>
                         </div>
                     </div>
+
                     <div>
-                        <label htmlFor="confirm-password" className="block test-sm font-medium text-green-700">Confirm Password</label>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-green-700">Confirm Password</label>
                         <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                                <Lock className='h-5 w-5 text-green-700' aria-hidden='true' />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Lock className="h-5 w-5 text-green-600" />
                             </div>
                             <input
                                 id="confirmPassword"
                                 type="password"
                                 required
-                                value={formData.confirmPassword}
                                 placeholder="Enter password again"
+                                value={formData.confirmPassword}
                                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                                className='block w-full px-3 py-2 pl-10 bg-green-50 border rounded-md shadow-sm
-							    placeholder-gray-700 focus:outline-none focus:ring-green-500 focus:border-green-600 text-sm sm:text-base'
+                                className="block w-full rounded-md border border-green-200 bg-green-50 py-2 pl-10 pr-3 text-gray-900 placeholder-gray-500 focus:border-green-600 focus:ring-green-500 sm:text-sm outline-none"
                             />
                         </div>
                     </div>
+
                     <button
-                        type='submit'
-                        className='w-full flex justify-center py-2 px-4 border border-transparent 
-							rounded-md shadow-sm text-sm font-medium text-white bg-green-600
-							 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-							  focus:ring-green-500 transition duration-150 ease-in-out disabled:opacity-50'
+                        type="submit"
                         disabled={loading}
+                        className="w-full flex justify-center items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md text-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
                     >
                         {loading ? (
                             <>
-                                <Loader className='mr-2 h-5 w-5 animate-spin' aria-hidden='true' />
+                                <Loader className="mr-2 h-5 w-5 animate-spin" />
                                 Loading...
                             </>
                         ) : (
                             <>
-                                <UserPlus className='mr-2 h-5 w-5' aria-hidden='true' />
-                                Sign up
+                                <UserPlus className="mr-2 h-5 w-5" />
+                                Sign Up
                             </>
                         )}
                     </button>
                 </form>
-                <p className='mt-8 text-center text-sm text-gray-700'>
+
+                <p className="mt-8 text-center text-sm text-gray-700">
                     Already have an account?{" "}
-                    <Link to='/login' className='font-medium text-green-600 hover:text-green-500 underline underline-offset-2'>
-                        Login here <ArrowRight className='inline h-4 w-4' />
+                    <Link to="/login" className="text-green-600 hover:text-green-500 underline underline-offset-2 font-medium">
+                        Login here <ArrowRight className="inline h-4 w-4" />
                     </Link>
                 </p>
             </div>
         </div>
+
     )
 }
 
