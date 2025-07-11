@@ -30,11 +30,11 @@ const DashboardPage = () => {
               key={tab.id}
               to={tab.id}
               className={({ isActive }) =>
-                `flex items-center px-4 py-2 mx-2 rounded-md transition-colors
+                `flex items-center gap-1 px-4 py-2 mx-2 rounded-md transition-colors
                     ${isActive ? 'bg-green-700 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-green-700'}`
               }
             >
-              <tab.icon className="h-5 w-5" />
+              <tab.icon className="h-[19px] w-[19px] " />
               {tab.label}
             </NavLink>
           ))}
