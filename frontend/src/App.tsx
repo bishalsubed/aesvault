@@ -13,6 +13,8 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
 import CredentialsPageForPhone from './pages/CredentialsPageForPhone'
+import CreateCredentialsForm from "@/components/CreateCredentialsForm";
+import CredentialsList from "@/components/CredentialsList";
 
 
 function App() {
@@ -32,12 +34,17 @@ function App() {
           <Route path='/' element={user ? <Navigate to="/dashboard" /> : <HomePage />} />
           <Route path='/signup' element={user ? <Navigate to="/dashboard" /> : <SignUpPage />} />
           <Route path='/login' element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
-          <Route path='/dashboard' element={user ? <DashboardPage /> : <Navigate to="/login" />} />
           <Route path='/dashboard/:credentialId' element={<CredentialPage />} />
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
           <Route path='/reset-password/:resetToken' element={<ResetPasswordPage />} />
           <Route path='/change-password' element={user ? <ChangePasswordPage /> : <Navigate to="/login" />} />
           <Route path='/credential/:credentialId' element={user ? <CredentialsPageForPhone /> : <Navigate to="/login" />} />
+          <Route path='/dashboard' element={user ? <DashboardPage /> : <Navigate to="/login" />}>
+            <Route index element={<Navigate to="create" replace />} />
+
+            <Route path='create' element={<CreateCredentialsForm />} />
+            <Route path='credentials' element={<CredentialsList />} />
+          </Route>
         </Routes>
       </div>
       <Toaster />
